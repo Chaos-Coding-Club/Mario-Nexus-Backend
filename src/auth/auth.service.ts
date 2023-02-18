@@ -47,8 +47,9 @@ export class AuthService {
     payload.password = hashedPassword;
 
     // Save the user in the database
+    let user;
     try {
-      await this.usersService.createUser(payload);
+      user = await this.usersService.createUser(payload);
     } catch (error) {
       console.error(error);
       if (error.code === "P2002") {
@@ -61,6 +62,12 @@ export class AuthService {
       });
     }
 
-    return { message: "User succesfully created!" };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: pass, ...result } = user;
+
+    return {
+      user: result,
+      access_token: this.jwtService.sign(result),
+    };
   }
 }
