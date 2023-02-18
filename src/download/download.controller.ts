@@ -12,9 +12,9 @@ export class DownloadController {
     return new StreamableFile(file);
   }
 
-  @Get("getModelCsv")
-  getModelCsv(): StreamableFile {
-    const file = createReadStream(join(process.cwd(), "package.json"));
+  @Get("getModelScript")
+  getModelScript(): StreamableFile {
+    const file = createReadStream(join(process.cwd(), "src/scripts/script.py"));
     return new StreamableFile(file);
   }
 }
