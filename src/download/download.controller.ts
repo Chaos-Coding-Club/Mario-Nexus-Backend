@@ -1,4 +1,4 @@
-import { Controller, Get, StreamableFile } from "@nestjs/common";
+import { Controller, Get, Header, StreamableFile } from "@nestjs/common";
 import { createReadStream } from "fs";
 import { join } from "path";
 import { Public } from "src/utils/constants";
@@ -7,8 +7,12 @@ import { Public } from "src/utils/constants";
 export class DownloadController {
   @Public()
   @Get("getDesktopApp")
+  @Header("Content-Type", "application/msix")
+  @Header("Content-Disposition", 'attachment; filename="mario_nexus.msix"')
   getDesktopApp(): StreamableFile {
-    const file = createReadStream(join(process.cwd(), "package.json"));
+    const file = createReadStream(
+      join(process.cwd(), "src/bin/mario_nexus.msix"),
+    );
     return new StreamableFile(file);
   }
 
